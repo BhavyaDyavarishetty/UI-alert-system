@@ -5,25 +5,25 @@
   align-items: center;
   height: 125px;
   color: white;
-  background-image:  url("images/covid19-banner.png");
+  background-image: url("images/covid19-banner.png");
   background-size: cover;
 }
 
-.homepage{
+.homepage {
   height: 300px;
   display: flex;
   justify-content: space-evenly;
-  margin: 50px 100px 0 100px;
+  margin: 30px 100px 0 100px;
 }
 
-.report-form, .register-form{
+.report-form, .register-form {
   width: 30%;
 }
 
 .register-title, .report-title {
   display: flex;
   justify-content: center;
-  margin-bottom: 50px;
+  margin-bottom: 35px;
   font-family: fantasy;
   font-size: x-large;
   color: chocolate;
@@ -41,6 +41,11 @@
 .row-value {
   width: 80%;
   font-size: 14px;
+
+  &:disabled {
+    background-color: lightgray;
+    cursor: not-allowed;
+  }
 }
 
 .button {
@@ -58,7 +63,7 @@
 }
 /*hover{color:#fff;background-color:#0069d9;border-color:#0062cc}.btn-primary.focus,.btn-primary:focus{color:#fff;background-color:#0069d9;border-color:#0062cc;box-shadow:0 0 0 .2rem rgba(38,143,255,.5)}.btn-primary.disabled,.btn-primary:disabled{color:#fff;background-color:#007bff;border-color:#007bff}.btn-primary:not(:disabled):not(.disabled).active,.btn-primary:not(:disabled):not(.disabled):active,.show>.btn-primary.dropdown-toggle{color:#fff;background-color:#0062cc;border-color:#005cbf}.btn-primary:not(:disabled):not(.disabled).active:focus,.btn-primary:not(:disabled):not(.disabled):active:focus,.show>.btn-primary.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(38,143,255,.5)}*/
 
-.vertical-bar{
+.vertical-bar {
   border-left: 2px dotted lightskyblue;
   height: 400px;
   margin-left: -3px;
