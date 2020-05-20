@@ -2,11 +2,12 @@ import * as React from "react";
 import {Form, Col, Row, Button} from "react-bootstrap";
 import RangeSlider from 'react-bootstrap-range-slider';
 import RegisterApiClient from "../api/RegisterApiClient";
+import ValidatorUtil from "../utils/ValidatorUtil";
+import _ from "lodash";
 
 export class RegisterForm extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             name: '',
             isPhoneNumber: false,
@@ -15,7 +16,16 @@ export class RegisterForm extends React.Component {
             state: '',
             zipcode: '',
             alertPreference: '',
-            range: 5
+            range: 5,
+            errors: {
+                name: null,
+                phoneNumber: null,
+                emailAddress: null,
+                state: null,
+                zipcode: null,
+                alertPreference: null,
+                range: null,
+            }
         }
     }
 
@@ -45,12 +55,69 @@ export class RegisterForm extends React.Component {
         })
     }
 
+    onSubmit = async (e) => {
+        await this.validate();
+        let hasErrors = _.values(this.state.errors).some((value) => {
+            return value !== null;
+        })
 
-    onSubmit = (e) => {
-        console.log(this.state);
-        // this.validate();
-        let s = this.register();
+        if (!hasErrors) {
+            await this.register();
+        }
     };
+
+    validate() {
+        let values = this.state;
+        this.validateField("name", values.name);
+        if (values.isPhoneNumber) {
+            this.validateField("phoneNumber", values.phoneNumber);
+        } else {
+            this.validateField("emailAddress", values.emailAddress);
+        }
+        this.validateField("state", values.state);
+        this.validateField("zipcode", values.zipcode);
+        this.validateField("alertPreference", values.alertPreference);
+        this.validateField("range", values.range);
+    }
+
+    validateField(field, value) {
+        let message = '';
+        switch (field) {
+            case("name"):
+                message = ValidatorUtil.validateName(value);
+                break;
+            case("phoneNumber"):
+                message = ValidatorUtil.validatePhoneNumber(value);
+                break;
+            case("emailAddress"):
+                message = ValidatorUtil.validateEmail(value);
+                break;
+            case("state"):
+                message = ValidatorUtil.validateIsEmpty(value);
+                break;
+            case("zipcode"):
+                message = ValidatorUtil.validateZipcode(value);
+                break;
+            case("alertPreference"):
+                message = ValidatorUtil.validateIsEmpty(value);
+                break;
+            case("range"):
+                message = ValidatorUtil.validateRange(value);
+                break;
+            default:
+                break;
+
+        }
+        this.setErrorMessage(message, field);
+    }
+
+    setErrorMessage(message, field) {
+        if (!(message === '')) {
+            this.setState(state => {
+                state.errors[field] = message
+            })
+        }
+    }
 
     async register() {
         try {
@@ -77,8 +144,9 @@ export class RegisterForm extends React.Component {
                         Name
                     </Form.Label>
                     <Form.Control name="name" sm="6" className="row-value" placeholder="Name"
-                                  onChange={this.updateData}/>
+                                  onChange={this.updateData} />
                 </Form.Row>
+                <div id="firstName-error"  hidden={!this.state.errors.name} className={`field-error ${this.state.errors.name ? 'error' : ''}`}>Name {this.state.errors.name}</div>
                 <Form.Group controlId="formTextMessage" className="row-label">
                     <Form.Label as={Col} sm={6} className="row-value">
                         Type of alert
