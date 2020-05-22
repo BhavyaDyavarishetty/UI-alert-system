@@ -129,10 +129,6 @@ export class RegisterForm extends React.Component {
         }
     }
 
-
-    componentDidMount() {
-    }
-
     render() {
         return <div className="register-form">
             <div className="register-title">
